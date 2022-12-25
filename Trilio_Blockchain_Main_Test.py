@@ -2,23 +2,31 @@
 from trilio import *
 
 # Creates a blockchain object
+
 blockchain = Trilio()
 print(blockchain)
-
 
 print("This is the validity Status ------------------------------------->")
 valid = blockchain.validate_chain()  # True = Valid, False = Invalid
 print(valid)
 
+def create_wallet(wallet):
+    return wallet
+
+
 wallet = blockchain.Wallet.create_wallet()  # Will return json with wallet information
-# print("This is the wallet object ----------------------------------------------------------->")
-# print(wallet)
+print("This is the wallet object ----------------------------------------------------------->")
+print(wallet)
+
+
+
+
 
 address = wallet["address"]
-# print("This is the private key ------------------------------------------------------------>")
-# print(address["pve"])  # Private key
-# print("This is the public key -------------------------------------------------------------->")
-# print(address["pbc"])  # Public key
+print("This is the private key ------------------------------------------------------------>")
+print(address["pve"])  # Private key
+print("This is the public key -------------------------------------------------------------->")
+print(address["pbc"])  # Public key
 
 # Gives the summary of the addresses in the wallet
 print(f"This is the address {address}")
@@ -26,6 +34,8 @@ print(f"This is the address {address}")
 # Creating the second wallet ------------------------------------------------------------------
 wallet_02 = blockchain.Wallet.create_wallet()
 address_02 = wallet_02["address"]
+
+
 # Gives the summary of the addresses in the wallet
 print(f"This is the address_02 {address_02}")
 # -----------------------------------------------------------------------------------------------
@@ -33,7 +43,8 @@ print(f"This is the address_02 {address_02}")
 
 print("These are the balance details:")
 # This shows that there is zero balance
-balance = blockchain.Wallet.get_balance(private_key=address["pve"], public_key=address["pbc"])  # Get a wallet's balance
+credit = blockchain.Wallet.credit_wallet(public_key=address_02["pbc"], amount=100)
+wallet_balance = blockchain.Wallet.get_balance(private_key=address["pve"], public_key=address["pbc"]) # Get a wallet's balance
 
 
 # This shows that there is no asset currently
@@ -80,4 +91,5 @@ blockchain.create_transaction(
 # You will see that it decreased
 print("This is the balance of the first wallet")
 print(blockchain.Wallet.get_balance(private_key=address["pve"], public_key=address["pbc"]))  # Get a wallet's balance
-all_wallets = []
+
+create_wallet(wallet)
