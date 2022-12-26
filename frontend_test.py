@@ -1,5 +1,5 @@
 import streamlit as st #importing streamlit pasckage
-import Trilio_Blockchain_Main as tbm #importing Trilio_Blockchain_Main.py
+import Trilio_Blockchain_Main_Test as tbm #importing Trilio_Blockchain_Main.py
 
 st. set_page_config(layout="wide") # full screen width for streamlit
 
