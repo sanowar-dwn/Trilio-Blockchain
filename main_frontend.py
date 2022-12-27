@@ -19,9 +19,9 @@ if st.button("Generate a wallet"): # button to run the wallet creating code
 
 
 if total_wallets >= 1:
+    public_key = st.text_input('Your public key')
     if st.button('credit your wallet'):
-        public_key = st.text_input('Your public key')
-        blockchain.Wallet.credit_wallet(public_key=public_key, amount=10)
+        blockchain.Wallet.credit_wallet(public_key=str(public_key), amount=1000)
         st.text(all_wallets)
 
 st.text(all_wallets)
