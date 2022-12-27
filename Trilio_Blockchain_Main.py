@@ -9,6 +9,7 @@ print(blockchain)
 # valid = blockchain.validate_chain()  # True = Valid, False = Invalid
 # print(valid)
 all_wallets = [] # stores all the wallets available
+total_transactions = 0
 
 wallet = blockchain.Wallet.create_wallet()  # Will return json with wallet information
 # print("This is the wallet object ----------------------------------------------------------->")
