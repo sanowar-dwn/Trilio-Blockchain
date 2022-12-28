@@ -85,10 +85,12 @@ with st.sidebar:
     st.title("Block height: " + str((len(all_transactions_amount))))
 
     st.write("The block height is the same as the length of the block, this means it is the number of transactions that occured")
-
-for i in all_transactions_pbc:
-    for j in all_transactions_amount:
-        table = [['Public Address', 'Amount Received'], 
-         [i, j]]
-        st.text(tabulate(table))
-        break
+# View all transactions
+st.title('All transactions')
+if st.button('View all transactions'):
+    for i in all_transactions_pbc:
+        for j in all_transactions_amount:
+            table = [['Public Address', 'Amount Received'], 
+            [i, j]]
+            st.text(tabulate(table))
+            break
