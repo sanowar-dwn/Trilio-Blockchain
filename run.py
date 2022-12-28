@@ -5,32 +5,28 @@ from trilio import *
 blockchain = Trilio()
 print(blockchain)
 
-# print("This is the validity Status ------------------------------------->")
+print("This is the validity Status ------------------------------------->")
 valid = blockchain.validate_chain()  # True = Valid, False = Invalid
 print(valid)
 
-all_wallets = [] # stores all the wallets available
-all_transactions_pbc = [] # stores all the public addresses which received coins
-all_transactions_amount = [] # storees all the transaction's amount info
-
 wallet = blockchain.Wallet.create_wallet()  # Will return json with wallet information
-# print("This is the wallet object ----------------------------------------------------------->")
-# print(wallet)
+print("This is the wallet object ----------------------------------------------------------->")
+print(wallet)
 
 address = wallet["address"]
-# print("This is the private key ------------------------------------------------------------>")
-# print(address["pve"])  # Private key
-# print("This is the public key -------------------------------------------------------------->")
-# print(address["pbc"])  # Public key
+print("This is the private key ------------------------------------------------------------>")
+print(address["pve"])  # Private key
+print("This is the public key -------------------------------------------------------------->")
+print(address["pbc"])  # Public key
 
-# # Gives the summary of the addresses in the wallet
-# print(f"This is the address {address}")
+# Gives the summary of the addresses in the wallet
+print(f"This is the address {address}")
 
 # Creating the second wallet ------------------------------------------------------------------
 wallet_02 = blockchain.Wallet.create_wallet()
 address_02 = wallet_02["address"]
-# # Gives the summary of the addresses in the wallet
-# print(f"This is the address_02 {address_02}")
+# Gives the summary of the addresses in the wallet
+print(f"This is the address_02 {address_02}")
 # -----------------------------------------------------------------------------------------------
 
 
@@ -83,4 +79,3 @@ blockchain.create_transaction(
 # You will see that it decreased
 print("This is the balance of the first wallet")
 print(blockchain.Wallet.get_balance(private_key=address["pve"], public_key=address["pbc"]))  # Get a wallet's balance
-

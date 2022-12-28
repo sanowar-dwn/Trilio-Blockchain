@@ -1,6 +1,7 @@
 import streamlit as st # importing streamlit package
 import Trilio_Blockchain_Main as tbm # importing Trilio_Blockchain_Main.py
 from datetime import datetime
+import streamlit.components.v1 as com
 
 st. set_page_config(layout="wide") # full screen width for streamlit
 
@@ -10,6 +11,10 @@ st.markdown("<h1 style='text-align: center; color: red;'>Trilio Blockchain</h1>"
 blockchain = tbm.blockchain 
 all_wallets = tbm.all_wallets 
 total_wallets = len(all_wallets)
+all_transactions_pbc = tbm.all_transactions_pbc
+all_transactions_amount = tbm.all_transactions_amount
+valid = tbm.valid
+
 st.subheader("Actions:")
 
 # Wallet creation
@@ -36,9 +41,9 @@ st.text(all_wallets)
 st.title('Transfer Funds')
 sender_key = st.text_input('Enter your private key') # taking sender's pve 
 receiver_address = st.text_input('Enter the receivers public address') # taking receiever's pbc
-transfer_amount = st.number_input('Amount to send')
+transfer_amount = st.number_input('Amount to send') # taking as input the amount to transfer
 if st.button('Transfer'):
-    blockchain.create_transaction(
+    blockchain.create_transaction( # transfer execution code
     datetime.now(),
     data = {
         "type":"token-transfer",
@@ -49,8 +54,29 @@ if st.button('Transfer'):
         }
     }
 )
-    total_transactions = 0
-    total_transactions = total_transactions + 1
-    st.success('Transaction successfull')
+    all_transactions_pbc.append(receiver_address)
+    all_transactions_amount.append(transfer_amount)
 
-st.text(total_transactions)
+# Check validity of chain
+
+st.title('Check the validity of the chain')
+if st.button('Check Validity'):
+    if valid == True:
+        st.success('The chain is valid')
+    
+    elif valid == None:
+        st.info('None')
+
+    else:
+        st.error('The chain is invalid')
+
+# Sidebar
+
+with st.sidebar:
+    st.title("Trilio: About the network")
+    st.write("This is a crypto wallet simulation project made with streamlit. Refresh after every actions to see the results")
+
+    st.title("Total number of wallets in the network: " + str((total_wallets)))
+    st.title("Block height: " + str((len(all_transactions_amount))))
+
+    st.write("The block height is the same as the length of the block, this means it is the number of blocks that are added in the blockchain")
