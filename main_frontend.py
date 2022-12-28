@@ -1,7 +1,7 @@
 import streamlit as st # importing streamlit package
 import Trilio_Blockchain_Main as tbm # importing Trilio_Blockchain_Main.py
 from datetime import datetime
-import streamlit.components.v1 as com
+from tabulate import tabulate
 
 st. set_page_config(layout="wide") # full screen width for streamlit
 
@@ -13,6 +13,7 @@ all_wallets = tbm.all_wallets
 total_wallets = len(all_wallets)
 all_transactions_pbc = tbm.all_transactions_pbc
 all_transactions_amount = tbm.all_transactions_amount
+all_public_address = tbm.all_public_address
 valid = tbm.valid
 
 st.subheader("Actions:")
@@ -23,6 +24,7 @@ if st.button("Generate a wallet"): # button to run the wallet creating code
     create_wallet = blockchain.Wallet.create_wallet()
     all_wallets.append(create_wallet) # appending every wallet created to a list
     address = create_wallet['address']
+    all_public_address.append(create_wallet['address']['pbc'])
     st.text('Your private key is:')
     st.success(address['pve'])
 
@@ -43,19 +45,22 @@ sender_key = st.text_input('Enter your private key') # taking sender's pve
 receiver_address = st.text_input('Enter the receivers public address') # taking receiever's pbc
 transfer_amount = st.number_input('Amount to send') # taking as input the amount to transfer
 if st.button('Transfer'):
-    blockchain.create_transaction( # transfer execution code
-    datetime.now(),
-    data = {
-        "type":"token-transfer",
-        "data":{
-            "to":receiver_address,
-            "from":sender_key,
-            "amount":transfer_amount
+    if str(receiver_address) in all_public_address: # checking if provided pbc exists 
+        blockchain.create_transaction(  # transfer execution code
+        datetime.now(),
+        data = {
+            "type":"token-transfer",
+            "data":{
+                "to":receiver_address,
+                "from":sender_key,
+                "amount":transfer_amount
+            }
         }
-    }
-)
-    all_transactions_pbc.append(receiver_address)
-    all_transactions_amount.append(transfer_amount)
+        )
+        all_transactions_pbc.append(receiver_address) # storing all the public addresses that has received coins
+        all_transactions_amount.append(transfer_amount) # storing all the amounts of coins transferred
+    else:
+        st.error('This public address does not exist')
 
 # Check validity of chain
 
@@ -79,4 +84,11 @@ with st.sidebar:
     st.title("Total number of wallets in the network: " + str((total_wallets)))
     st.title("Block height: " + str((len(all_transactions_amount))))
 
-    st.write("The block height is the same as the length of the block, this means it is the number of blocks that are added in the blockchain")
+    st.write("The block height is the same as the length of the block, this means it is the number of transactions that occured")
+
+for i in all_transactions_pbc:
+    for j in all_transactions_amount:
+        table = [['Public Address', 'Amount Received'], 
+         [i, j]]
+        st.text(tabulate(table))
+        break

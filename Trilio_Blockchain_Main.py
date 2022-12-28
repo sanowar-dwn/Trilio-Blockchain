@@ -12,6 +12,7 @@ print(valid)
 all_wallets = [] # stores all the wallets available
 all_transactions_pbc = [] # stores all the public addresses which received coins
 all_transactions_amount = [] # storees all the transaction's amount info
+all_public_address = [] # stores all the public address generated 
 
 wallet = blockchain.Wallet.create_wallet()  # Will return json with wallet information
 # print("This is the wallet object ----------------------------------------------------------->")
